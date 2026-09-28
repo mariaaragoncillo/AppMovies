@@ -135,8 +135,26 @@ public class MoviesAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.movies_list_item_layout, parent, false);
         }
 
-        // TODO: fill the contents of "contentView" with the information of the movie at position "position"
         // The widgets of the view are defined in the layout file "movies_list_item_layout.xml"
+
+        // Obtenemos la pelicula correspondiente
+        Movie movie = (Movie) this.getItem(position);
+
+        // Obtenemos los parametros necesarios
+        ImageView ivCover = convertView.findViewById(R.id.ivCover);
+        TextView tvTitle = convertView.findViewById(R.id.tvTitle);
+        TextView tvYear = convertView.findViewById(R.id.tvYear);
+        TextView tvDirector = convertView.findViewById(R.id.tvDirector);
+
+        // Mostramos la portada de la pelicula
+        Picasso.get().load(movie.getCoverUrl()).into(ivCover);
+        // Mostramos el titulo
+        tvTitle.setText(movie.getTitle());
+        // Mostramos el anho
+        tvYear.setText(String.valueOf(movie.getYear()));
+        // Mostramos el director
+        tvDirector.setText(movie.getDirector());
+
 
         return convertView;
 

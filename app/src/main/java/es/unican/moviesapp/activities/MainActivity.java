@@ -125,8 +125,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         configureAdapter(moviesAdapter);  // configures adapter with persisted settings
 
         // Set-up the ListView with the Adapter created above
+        lvMovies.setAdapter(moviesAdapter);
 
-        // TODO: find the reference to the ListView, and set its adapter
+        // Creamos el listener para ListView para que responda cuando se pulse en una pelicula
+        lvMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Obtenemos la pelicula pulsada
+                Movie clickedMovie = shownMovies.get(position);
+                // Mostramos el popup con la informacion de la pelicula
+                showMoviePopupDetails(clickedMovie);
+            }
+        });
+
     }
 
     /**
@@ -245,7 +256,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         LayoutInflater inflater = MainActivity.this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.movie_dialog_layout, null);
 
-        // TODO fill the contents of "dialogView" with the information of the movie
+        ImageView ivCover = dialogView.findViewById(R.id.ivCover);
+        TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
+        TextView tvDirector = dialogView.findViewById(R.id.tvDirector);
+        TextView tvSynopsis = dialogView.findViewById(R.id.tvSynopsis);
+        TextView tvActors = dialogView.findViewById(R.id.tvActors);
+
+        // Mostramos la portada de la peli
+        Picasso.get().load(movie.getCoverUrl()).into(ivCover);
+        // Mostramos el titulo
+        tvTitle.setText(movie.getTitle());
+        // Mostramos el director
+        tvDirector.setText(movie.getDirector());
+        // Mostramos la sinopsis
+        tvSynopsis.setText(movie.getSynopsis());
+        // Mostramos el reparto
+        tvActors.setText(movie.getActors());
+
+        // Creamos el AlertDialog para que muestre el contenido de dialogView
+        builder.setView(dialogView);
+        builder.setPositiveButton("Cerrar", null);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 
     }
 
